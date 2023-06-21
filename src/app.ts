@@ -16,10 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/', routes);
 
 // Testing
-app.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  // throw new Error('Testing Error logger');
-  res.status(200).send('Everything is ok');
-});
+// app.get('/', async (req: Request, res: Response, next: NextFunction) => {
+//   // throw new Error('Testing Error logger');
+//   res.status(200).send('Everything is ok');
+// });
 
 //global error handler
 app.use(globalErrorHandler);
@@ -28,10 +28,10 @@ app.use(globalErrorHandler);
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
-    message: 'Not Found',
+    message: 'Not found',
     errorMessages: [
       {
-        path: req.originalUrl,
+        path: req?.originalUrl,
         message: 'API Not Found',
       },
     ],
