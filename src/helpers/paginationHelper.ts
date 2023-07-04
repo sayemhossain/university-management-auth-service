@@ -15,7 +15,7 @@ type IOptionsResult = {
   sortOrder: SortOrder;
 };
 
-const calculatePagination = (options: IOptions): IOptionsResult => {
+export const calculatePagination = (options: IOptions): IOptionsResult => {
   const page = Number(options.page || 1);
   const limit = Number(options.limit || 10);
   const skip = (page - 1) * limit;
@@ -30,8 +30,4 @@ const calculatePagination = (options: IOptions): IOptionsResult => {
     sortBy,
     sortOrder,
   };
-};
-
-export const paginationHelpers = {
-  calculatePagination,
 };
