@@ -5,7 +5,10 @@ import { calculatePagination } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { academicSemesterTitleCodeMapper } from './academicSemester.constant';
-import { IAcademicSemester } from './academicSemester.interface';
+import {
+  IAcademicSemester,
+  IAcademicSemesterFilters,
+} from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 
 const createSemester = async (
@@ -19,12 +22,14 @@ const createSemester = async (
 };
 
 export const getAllSemestersToDB = async (
-  paginationOptions: IPaginationOptions
+  paginationOptions: IPaginationOptions,
+  filters: IAcademicSemesterFilters
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
   const { page, limit, skip, sortBy, sortOrder } =
     calculatePagination(paginationOptions);
-
   const sortConditions: { [key: string]: SortOrder } = {};
+
+  console.log(filters);
 
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;

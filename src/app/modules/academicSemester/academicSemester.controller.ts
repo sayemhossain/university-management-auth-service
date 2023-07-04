@@ -30,8 +30,9 @@ const createSemester = catchAsync(
 export const getAllSemesters = catchAsync(
   async (req: Request, res: Response) => {
     const paginationOptions = pick(req.query, paginationFields);
+    const filters = pick(req.query, ['searchTerm']);
 
-    const result = await getAllSemestersToDB(paginationOptions);
+    const result = await getAllSemestersToDB(paginationOptions, filters);
 
     sendResponse<IAcademicSemester[]>(res, {
       statusCode: httpStatus.OK,
@@ -69,6 +70,7 @@ const updateSemester = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 const deleteSemester = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
