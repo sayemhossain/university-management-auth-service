@@ -9,9 +9,10 @@ import { IAcademicSemester } from './academicSemester.interface';
 import {
   AcademicSemesterService,
   getAllSemestersToDB,
+  getSingleSemesterToDB,
 } from './academicSemester.service';
 
-const createSemester = catchAsync(
+export const createSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { ...academicSemesterData } = req.body;
     const result = await AcademicSemesterService.createSemester(
@@ -45,18 +46,20 @@ export const getAllSemesters = catchAsync(
   }
 );
 
-const getSingleSemester = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
+export const getSingleSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
 
-  const result = await AcademicSemesterService.getSingleSemester(id);
+    const result = await getSingleSemesterToDB(id);
 
-  sendResponse<IAcademicSemester>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Semester retrieved successfully !',
-    data: result,
-  });
-});
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester retrieved successfully !',
+      data: result,
+    });
+  }
+);
 
 const updateSemester = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -86,8 +89,6 @@ const deleteSemester = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const AcademicSemesterController = {
-  createSemester,
-  getSingleSemester,
   updateSemester,
   deleteSemester,
 };

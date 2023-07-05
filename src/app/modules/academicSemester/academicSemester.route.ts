@@ -4,7 +4,9 @@ import validateRequest from '../../middlewares/validateRequest';
 
 import {
   AcademicSemesterController,
+  createSemester,
   getAllSemesters,
+  getSingleSemester,
 } from './academicSemester.controller';
 import { AcademicSemesterValidation } from './acdemicSemester.validation';
 const router = express.Router();
@@ -12,8 +14,10 @@ const router = express.Router();
 router.post(
   '/create-semester',
   validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
-  AcademicSemesterController.createSemester
+  createSemester
 );
+
+router.get('/:id', getSingleSemester);
 
 router.get('/', getAllSemesters);
 

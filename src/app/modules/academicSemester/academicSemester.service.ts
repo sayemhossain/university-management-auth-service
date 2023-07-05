@@ -25,6 +25,16 @@ const createSemester = async (
   return result;
 };
 
+// Get single semester
+export const getSingleSemesterToDB = async (
+  id: string
+): Promise<IAcademicSemester | null> => {
+  const result = await AcademicSemester.findById(id);
+
+  return result;
+};
+
+// Get semester using pagination/limit/sort/search(partial match + exest match)
 export const getAllSemestersToDB = async (
   paginationOptions: IPaginationOptions,
   filters: IAcademicSemesterFilters
@@ -34,7 +44,7 @@ export const getAllSemestersToDB = async (
   const sortConditions: { [key: string]: SortOrder } = {};
   const { searchTerm, ...filtersData } = filters;
 
-  const andConditions = [{}];
+  const andConditions = [];
 
   // For partial match
   if (searchTerm) {
@@ -62,7 +72,10 @@ export const getAllSemestersToDB = async (
     sortConditions[sortBy] = sortOrder;
   }
 
-  const result = await AcademicSemester.find({ $and: andConditions })
+  const whereCondition =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const result = await AcademicSemester.find(whereCondition)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
