@@ -4,13 +4,17 @@ import ApiError from '../../../errors/ApiError';
 import { calculatePagination } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { academicSemesterTitleCodeMapper } from './academicSemester.constant';
+import {
+  academicSemesterSearchableFields,
+  academicSemesterTitleCodeMapper,
+} from './academicSemester.constant';
 import {
   IAcademicSemester,
   IAcademicSemesterFilters,
 } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 
+// Create new semester
 const createSemester = async (
   payload: IAcademicSemester
 ): Promise<IAcademicSemester> => {
@@ -28,13 +32,37 @@ export const getAllSemestersToDB = async (
   const { page, limit, skip, sortBy, sortOrder } =
     calculatePagination(paginationOptions);
   const sortConditions: { [key: string]: SortOrder } = {};
+  const { searchTerm, ...filtersData } = filters;
 
-  console.log(filters);
+  const andConditions = [{}];
 
+  // For partial match
+  if (searchTerm) {
+    andConditions.push({
+      $or: academicSemesterSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+
+  //For exest match
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  //For using sorting
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
-  const result = await AcademicSemester.find()
+
+  const result = await AcademicSemester.find({ $and: andConditions })
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
