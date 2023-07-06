@@ -64,3 +64,16 @@ export const getAllFacultyToDB = async (
     data: result,
   };
 };
+export const updateFacultyToDB = async (
+  id: string,
+  payload: Partial<IAcademicFaculty>
+): Promise<IAcademicFaculty | null> => {
+  const result = await AcademicFaculty.findByIdAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+export const deleteFacultyToDB = async (id: string) => {
+  const result = await AcademicFaculty.findByIdAndDelete(id);
+  return result;
+};
