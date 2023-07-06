@@ -8,16 +8,16 @@ import { academicSemesterFilterableFields } from './academicSemester.constant';
 import { IAcademicSemester } from './academicSemester.interface';
 import {
   AcademicSemesterService,
+  createSemesterToDB,
   getAllSemestersToDB,
   getSingleSemesterToDB,
+  updateSemesterToDB,
 } from './academicSemester.service';
 
 export const createSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { ...academicSemesterData } = req.body;
-    const result = await AcademicSemesterService.createSemester(
-      academicSemesterData
-    );
+    const result = await createSemesterToDB(academicSemesterData);
 
     sendResponse<IAcademicSemester>(res, {
       statusCode: httpStatus.OK,
@@ -61,19 +61,35 @@ export const getSingleSemester = catchAsync(
   }
 );
 
-const updateSemester = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const updatedData = req.body;
+export const updateSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const result = await updateSemesterToDB(id, updatedData);
 
-  const result = await AcademicSemesterService.updateSemester(id, updatedData);
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Updated Successfully !',
+      data: result,
+    });
+    res.send(result);
+  }
+);
 
-  sendResponse<IAcademicSemester>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Semester updated successfully !',
-    data: result,
-  });
-});
+// const updateSemester = catchAsync(async (req: Request, res: Response) => {
+//   const id = req.params.id;
+//   const updatedData = req.body;
+
+//   const result = await AcademicSemesterService.updateSemester(id, updatedData);
+
+//   sendResponse<IAcademicSemester>(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Semester updated successfully !',
+//     data: result,
+//   });
+// });
 
 const deleteSemester = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;

@@ -15,7 +15,7 @@ import {
 import { AcademicSemester } from './academicSemester.model';
 
 // Create new semester
-const createSemester = async (
+export const createSemesterToDB = async (
   payload: IAcademicSemester
 ): Promise<IAcademicSemester> => {
   if (academicSemesterTitleCodeMapper[payload.title] !== payload.code) {
@@ -92,30 +92,28 @@ export const getAllSemestersToDB = async (
   };
 };
 
-const getSingleSemester = async (
-  id: string
-): Promise<IAcademicSemester | null> => {
-  const result = await AcademicSemester.findById(id);
-  return result;
+export const updateSemesterToDB = async (id: any, updatedData: string) => {
+  console.log(updatedData);
+  return id;
 };
 
-const updateSemester = async (
-  id: string,
-  payload: Partial<IAcademicSemester>
-): Promise<IAcademicSemester | null> => {
-  if (
-    payload.title &&
-    payload.code &&
-    academicSemesterTitleCodeMapper[payload.title] !== payload.code
-  ) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Semester Code');
-  }
+// const updateSemester = async (
+//   id: string,
+//   payload: Partial<IAcademicSemester>
+// ): Promise<IAcademicSemester | null> => {
+//   if (
+//     payload.title &&
+//     payload.code &&
+//     academicSemesterTitleCodeMapper[payload.title] !== payload.code
+//   ) {
+//     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Semester Code');
+//   }
 
-  const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
-    new: true,
-  });
-  return result;
-};
+//   const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
+//     new: true,
+//   });
+//   return result;
+// };
 
 const deleteSemester = async (
   id: string
@@ -125,8 +123,5 @@ const deleteSemester = async (
 };
 
 export const AcademicSemesterService = {
-  createSemester,
-  getSingleSemester,
-  updateSemester,
   deleteSemester,
 };
