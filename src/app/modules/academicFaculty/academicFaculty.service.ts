@@ -1,6 +1,9 @@
 import { calculatePagination } from '../../../helpers/paginationHelper';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { IAcademicFaculty } from './academicFaculty.interface';
+import {
+  IAcademicFaculty,
+  IAcademicFacultyFilters,
+} from './academicFaculty.interface';
 import { AcademicFaculty } from './academicFaculty.model';
 
 export const createFacultyToDB = async (
@@ -11,15 +14,42 @@ export const createFacultyToDB = async (
 };
 
 export const getAllFacultyToDB = async (
-  paginationOptions: IPaginationOptions
+  paginationOptions: IPaginationOptions,
+  filters: IAcademicFacultyFilters
 ) => {
   const { page, limit, skip, sortBy, sortOrder } =
     calculatePagination(paginationOptions);
+  const { searchTerm, ...filtersData } = filters;
 
-  const result = await AcademicFaculty.find().skip(skip).limit(limit);
+  const andConditions = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      $or: [
+        {
+          title: {
+            $regex: searchTerm,
+            $options: 'i',
+          },
+        },
+      ],
+    });
+  }
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const result = await AcademicFaculty.find(whereConditions)
+    .skip(skip)
+    .limit(limit);
 
   const total = await AcademicFaculty.countDocuments();
-
   return {
     meta: {
       page,

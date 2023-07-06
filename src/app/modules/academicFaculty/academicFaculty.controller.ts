@@ -4,6 +4,8 @@ import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import { pick } from '../../../shared/pick';
 import sendReponse from '../../../shared/sendResponse';
+import { academicFacultyFilterableFields } from './academicFaculty.constant';
+import { IAcademicFaculty } from './academicFaculty.interface';
 import {
   createFacultyToDB,
   getAllFacultyToDB,
@@ -14,7 +16,7 @@ export const createFaculty = catchAsync(async (req: Request, res: Response) => {
 
   const result = await createFacultyToDB(academicFacultyData);
 
-  sendReponse(res, {
+  sendReponse<IAcademicFaculty>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Aademic Faculty created successfully!',
@@ -24,10 +26,11 @@ export const createFaculty = catchAsync(async (req: Request, res: Response) => {
 
 export const getAllFaculty = catchAsync(async (req: Request, res: Response) => {
   const paginationOptions = pick(req.query, paginationFields);
+  const filters = pick(req.query, academicFacultyFilterableFields);
 
-  const result = await getAllFacultyToDB(paginationOptions);
+  const result = await getAllFacultyToDB(paginationOptions, filters);
 
-  sendReponse(res, {
+  sendReponse<IAcademicFaculty[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Faculty retrieved successfully !',
