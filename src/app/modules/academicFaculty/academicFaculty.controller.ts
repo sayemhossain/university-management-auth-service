@@ -9,6 +9,7 @@ import { IAcademicFaculty } from './academicFaculty.interface';
 import {
   createFacultyToDB,
   getAllFacultyToDB,
+  getSingleFacultyToDB,
 } from './academicFaculty.service';
 
 export const createFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -23,7 +24,19 @@ export const createFaculty = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+export const getSingleFaculty = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
 
+    const result = await getSingleFacultyToDB(id);
+    sendReponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Faculty retrieved successfully !',
+      data: result,
+    });
+  }
+);
 export const getAllFaculty = catchAsync(async (req: Request, res: Response) => {
   const paginationOptions = pick(req.query, paginationFields);
   const filters = pick(req.query, academicFacultyFilterableFields);

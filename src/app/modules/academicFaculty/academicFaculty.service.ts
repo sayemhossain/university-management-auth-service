@@ -12,7 +12,12 @@ export const createFacultyToDB = async (
   const result = await AcademicFaculty.create(payload);
   return result;
 };
-
+export const getSingleFacultyToDB = async (
+  id: string
+): Promise<IAcademicFaculty | null> => {
+  const result = await AcademicFaculty.findById(id);
+  return result;
+};
 export const getAllFacultyToDB = async (
   paginationOptions: IPaginationOptions,
   filters: IAcademicFacultyFilters
