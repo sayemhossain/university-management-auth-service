@@ -9,12 +9,15 @@ import {
   getSingleSemester,
   updateSemester,
 } from './academicSemester.controller';
-import { AcademicSemesterValidation } from './acdemicSemester.validation';
+import {
+  createAcademicSemesterZodSchema,
+  updateAcademicSemesterZodSchema,
+} from './acdemicSemester.validation';
 const router = express.Router();
 
 router.post(
   '/create-semester',
-  validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
+  validateRequest(createAcademicSemesterZodSchema),
   createSemester
 );
 
@@ -22,7 +25,11 @@ router.get('/:id', getSingleSemester);
 
 router.get('/', getAllSemesters);
 
-router.patch('/update-semster/:id', updateSemester);
+router.patch(
+  '/update-semster/:id',
+  validateRequest(updateAcademicSemesterZodSchema),
+  updateSemester
+);
 
 router.delete('/:id', AcademicSemesterController.deleteSemester);
 

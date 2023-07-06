@@ -5,7 +5,7 @@ import {
   acdemicSemesterMonths,
 } from './academicSemester.constant';
 
-const createAcademicSemesterZodSchema = z.object({
+export const createAcademicSemesterZodSchema = z.object({
   body: z.object({
     title: z.enum([...academicSemesterTitles] as [string, ...string[]], {
       required_error: 'Title is required',
@@ -25,7 +25,7 @@ const createAcademicSemesterZodSchema = z.object({
 
 ///  Ensure 1: Route Level : Update -->  Give me title and code both , neither
 
-const updateAcademicSemesterZodSchema = z
+export const updateAcademicSemesterZodSchema = z
   .object({
     body: z.object({
       title: z
@@ -38,9 +38,7 @@ const updateAcademicSemesterZodSchema = z
           required_error: 'Year is required ',
         })
         .optional(),
-      code: z
-        .enum([...academicSemesterCodes] as [string, ...string[]])
-        .optional(),
+      code: z.enum([...academicSemesterCodes] as [string, ...string[]]),
       startMonth: z
         .enum([...acdemicSemesterMonths] as [string, ...string[]], {
           required_error: 'Start month is needed',
@@ -58,11 +56,6 @@ const updateAcademicSemesterZodSchema = z
       (data.body.title && data.body.code) ||
       (!data.body.title && !data.body.code),
     {
-      message: 'Either both title and code should be provided or neither',
+      message: 'Either both title and code should be provied or neither.',
     }
   );
-
-export const AcademicSemesterValidation = {
-  createAcademicSemesterZodSchema,
-  updateAcademicSemesterZodSchema,
-};

@@ -65,15 +65,15 @@ export const updateSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const updatedData = req.body;
+
     const result = await updateSemesterToDB(id, updatedData);
 
     sendResponse<IAcademicSemester>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Updated Successfully !',
+      message: 'Semester updated successfully !',
       data: result,
     });
-    res.send(result);
   }
 );
 
