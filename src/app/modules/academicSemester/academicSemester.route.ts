@@ -1,10 +1,8 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-// import { UserController } from './user.controller';
-
 import {
-  AcademicSemesterController,
   createSemester,
+  deleteSemester,
   getAllSemesters,
   getSingleSemester,
   updateSemester,
@@ -31,6 +29,6 @@ router.patch(
   updateSemester
 );
 
-router.delete('/:id', AcademicSemesterController.deleteSemester);
+router.delete('/:id', deleteSemester);
 
 export const AcademicSemesterRoutes = router;

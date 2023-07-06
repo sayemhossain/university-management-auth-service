@@ -7,8 +7,8 @@ import { default as sendResponse } from '../../../shared/sendResponse';
 import { academicSemesterFilterableFields } from './academicSemester.constant';
 import { IAcademicSemester } from './academicSemester.interface';
 import {
-  AcademicSemesterService,
   createSemesterToDB,
+  deleteSemesterToDB,
   getAllSemestersToDB,
   getSingleSemesterToDB,
   updateSemesterToDB,
@@ -77,34 +77,17 @@ export const updateSemester = catchAsync(
   }
 );
 
-// const updateSemester = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
-//   const updatedData = req.body;
+export const deleteSemester = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-//   const result = await AcademicSemesterService.updateSemester(id, updatedData);
+    const result = await deleteSemesterToDB(id);
 
-//   sendResponse<IAcademicSemester>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Semester updated successfully !',
-//     data: result,
-//   });
-// });
-
-const deleteSemester = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const result = await AcademicSemesterService.deleteSemester(id);
-
-  sendResponse<IAcademicSemester>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Semester deleted successfully !',
-    data: result,
-  });
-});
-
-export const AcademicSemesterController = {
-  updateSemester,
-  deleteSemester,
-};
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester Deleted successfully !',
+      data: result,
+    });
+  }
+);
