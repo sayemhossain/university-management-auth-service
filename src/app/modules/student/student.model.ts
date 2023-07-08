@@ -1,6 +1,7 @@
-import { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
+import { IStudent, StudentModel } from './student.interface';
 
-const studentSchema = new Schema<IStudent, studentModel>(
+export const studentSchema = new Schema<IStudent, StudentModel>(
   {
     id: {
       type: String,
@@ -112,7 +113,7 @@ const studentSchema = new Schema<IStudent, studentModel>(
     },
     profileImage: {
       type: String,
-      required: true,
+      //   required: true,
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
@@ -132,3 +133,5 @@ const studentSchema = new Schema<IStudent, studentModel>(
   },
   { timestamps: true }
 );
+
+export const Student = model<IStudent, StudentModel>('Student', studentSchema);
