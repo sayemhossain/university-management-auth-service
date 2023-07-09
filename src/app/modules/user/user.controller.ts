@@ -4,12 +4,14 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { IUser } from './user.interface';
-import { UserService } from './user.service';
+import { createStudentToDB } from './user.service';
 
-const createUser: RequestHandler = catchAsync(
+export const createStudent: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { user } = req.body;
-    const result = await UserService.createUser(user);
+    {
+    }
+    const { student, ...userData } = req.body;
+    const result = await createStudentToDB(student, userData);
 
     sendResponse<IUser>(res, {
       statusCode: httpStatus.OK,
@@ -19,7 +21,3 @@ const createUser: RequestHandler = catchAsync(
     });
   }
 );
-
-export const UserController = {
-  createUser,
-};
