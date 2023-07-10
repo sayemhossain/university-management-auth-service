@@ -134,6 +134,21 @@
             "date": 1688936407840,
             "name": "E:\\PH Level Two\\university-management\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-10-07-03-success.log",
             "hash": "72f8fabd24521daadf62298559dbf6130f8aab00964345dbbca14b5dceeba9bf"
+        },
+        {
+            "date": 1688982579796,
+            "name": "E:\\PH Level Two\\university-management\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-10-07-15-success.log",
+            "hash": "10a3255186ef835ed166bd31b4251cc243630d8c29e34304fa060daebb3b9cf8"
+        },
+        {
+            "date": 1688983586306,
+            "name": "E:\\PH Level Two\\university-management\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-10-07-16-success.log",
+            "hash": "240277893895c0572ae95f4c5e887b40c8593941df08e4243c9fa4f7d2968bac"
+        },
+        {
+            "date": 1688988000828,
+            "name": "E:\\PH Level Two\\university-management\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-10-07-17-success.log",
+            "hash": "ddd84e89426c2b6d0f44c23cdefcd9d409338ce789f0aa46c32d6e08973feecd"
         }
     ],
     "hashType": "sha256"

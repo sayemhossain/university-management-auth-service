@@ -103,3 +103,70 @@ export const createUserZodSchema = z.object({
     }),
   }),
 });
+
+export const createFacultyZodSchema = z.object({
+  body: z.object({
+    password: z.string().optional(),
+    faculty: z.object({
+      name: z.object({
+        firstName: z.string({
+          required_error: 'First Name is required',
+        }),
+        middleName: z
+          .string({
+            required_error: 'First Name is required',
+          })
+          .optional(),
+        lastName: z.string({
+          required_error: 'First Name is required',
+        }),
+      }),
+      dateOfBirth: z
+        .string({
+          required_error: 'Date Of Birth is required',
+        })
+        .optional(),
+      gender: z
+        .enum(['male', 'female'], {
+          required_error: 'Gender is required',
+        })
+        .optional(),
+      bloodGroup: z
+        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], {
+          required_error: 'Blood Group is required',
+        })
+        .optional(),
+      email: z
+        .string({
+          required_error: 'Email is required',
+        })
+        .email(),
+      contactNo: z.string({
+        required_error: 'Contact No is required',
+      }),
+      emergencyContactNo: z.string({
+        required_error: 'Emergency Contact No is required',
+      }),
+      presentAddress: z.string({
+        required_error: 'Present Address is required',
+      }),
+      permanentAddress: z.string({
+        required_error: 'Permanent Address is required',
+      }),
+      designation: z.string({
+        required_error: 'Designation is required',
+      }),
+      profileImage: z
+        .string({
+          required_error: 'Profile Image is required',
+        })
+        .optional(),
+      academicFaculty: z.string({
+        required_error: 'academicFaculty is required',
+      }),
+      academicDepartment: z.string({
+        required_error: 'Academic Department is required',
+      }),
+    }),
+  }),
+});
