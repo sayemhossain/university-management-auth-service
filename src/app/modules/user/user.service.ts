@@ -3,13 +3,19 @@ import mongoose from 'mongoose';
 import config from '../../../config/index';
 import ApiError from '../../../errors/ApiError';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
+import { IAdmin } from '../admin/admin.interface';
+import { Admin } from '../admin/admin.model';
 import { IFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 import { IStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { IUser } from './user.interface';
 import { User } from './user.model';
-import { generateFacultyId, generateStudentId } from './user.utils';
+import {
+  generateAdminId,
+  generateFacultyId,
+  generateStudentId,
+} from './user.utils';
 
 export const createStudentToDB = async (
   student: IStudent,
@@ -143,7 +149,7 @@ export const createFacultyToDB = async (
 
   return newFacultyAllData;
 };
-const createAdmin = async (
+export const createAdmin = async (
   admin: IAdmin,
   user: IUser
 ): Promise<IUser | null> => {

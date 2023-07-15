@@ -5,9 +5,13 @@ import config from '../../config';
 import ApiError from '../../errors/ApiError';
 import { jwtHelpers } from '../../helpers/jwtHelpers';
 
+interface CustomRequest extends Request {
+  user?: any;
+}
+
 const auth =
   (...requiredRoles: string[]) =>
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
       //get authorization token
       const token = req.headers.authorization;
