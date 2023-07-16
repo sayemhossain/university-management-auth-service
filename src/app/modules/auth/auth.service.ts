@@ -1,7 +1,11 @@
 import httpStatus from 'http-status';
+import { Secret } from 'jsonwebtoken';
+import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
+import { createToken } from '../../../helpers/jwtHelpers';
 import { User } from '../user/user.model';
 import { IAuth } from './auth.interface';
+
 export const loginUserToDB = async (payload: IAuth) => {
   const { id, password } = payload;
 
@@ -22,6 +26,22 @@ export const loginUserToDB = async (payload: IAuth) => {
   }
 
   //crate access token & refresh token
+  const { id: userId, role, needsPassword } = isUserExist;
+  const accessToken = createToken(
+    { userId, role },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
+  );
 
-  //   return {};
+  const refreshToken = createToken(
+    { userId, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+    needsPassword,
+  };
 };
