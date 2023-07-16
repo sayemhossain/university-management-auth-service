@@ -4,6 +4,6 @@ export type IAuth = {
 };
 export type ILoginUserResponse = {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   needsPassword: boolean;
 };
