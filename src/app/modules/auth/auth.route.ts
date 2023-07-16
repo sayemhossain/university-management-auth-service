@@ -6,6 +6,7 @@ import { loginZodSchema } from './auth.validation';
 const router = express.Router();
 
 router.post('/login', validateRequest(loginZodSchema), loginUser);
+
 // router.get(
 //   '/',
 //   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
