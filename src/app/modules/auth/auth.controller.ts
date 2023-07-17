@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import config from '../../../config';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
+import { IRefreshTokenResponse } from './auth.interface';
 import { loginUserToDB, refreshTokenToDB } from './auth.service';
 
 export const loginUser = catchAsync(async (req: Request, res: Response) => {
@@ -28,7 +29,7 @@ export const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
   const result = await refreshTokenToDB(refreshToken);
 
-  sendResponse(res, {
+  sendResponse<IRefreshTokenResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User Loggedin Successfully !',
