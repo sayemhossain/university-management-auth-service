@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { Secret } from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { createToken } from '../../../helpers/jwtHelpers';
@@ -44,4 +44,13 @@ export const loginUserToDB = async (payload: IAuth) => {
     refreshToken,
     needsPassword,
   };
+};
+export const refreshTokenToDB = async (token: string) => {
+  //verify token
+  try {
+    var verifiedToken = jwt.verify(token, config.jwt.refresh_secret);
+    console.log(decoded);
+  } catch (error) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Invalid Refresh Token');
+  }
 };
