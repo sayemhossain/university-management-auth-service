@@ -1,7 +1,11 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { loginUser, refreshToken } from './auth.controller';
-import { loginZodSchema, refreshTokenZodSchema } from './auth.validation';
+import { changePassword, loginUser, refreshToken } from './auth.controller';
+import {
+  changePasswordZodSchema,
+  loginZodSchema,
+  refreshTokenZodSchema,
+} from './auth.validation';
 
 const router = express.Router();
 
@@ -11,6 +15,12 @@ router.post(
   validateRequest(refreshTokenZodSchema),
   refreshToken
 );
+router.post(
+  '/change-password',
+  validateRequest(changePasswordZodSchema),
+  changePassword
+);
+
 // router.get(
 //   '/',
 //   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
