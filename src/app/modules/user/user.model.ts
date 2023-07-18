@@ -65,6 +65,7 @@ userSchema.methods.isPasswordMatched = async function (
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
+//hasing password
 userSchema.pre(`save`, async function (next) {
   //hashing user password
   this.password = await bcrypt.hash(
