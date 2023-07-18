@@ -98,7 +98,7 @@ export const changePasswordToDB = async (
   //hash password before saving
   const newHashPassword = await bcrypt.hash(
     newPassword,
-    config.bycrypt_salt_rounds as string
+    Number(config.bycrypt_salt_rounds)
   );
 
   //update user password
